@@ -14,6 +14,7 @@ class Actor:
         _color (Color): The color of the text.
         _position (Point): The screen coordinates.
         _velocity (Point): The speed and direction.
+        _points (int): The current value.
     """
 
     def __init__(self):
@@ -23,6 +24,7 @@ class Actor:
         self._color = Color(255, 255, 255)
         self._position = Point(0, 0)
         self._velocity = Point(0, 0)
+        self._points = 0
 
     def get_color(self):
         """Gets the actor's color as a tuple of three ints (r, g, b).
@@ -64,6 +66,14 @@ class Actor:
         """
         return self._velocity
     
+    def get_points(self):
+        """Gets the actor's points.
+
+        Returns:
+            Int: The actor's points.
+        """
+        return self._points
+
     def move_next(self, max_x, max_y):
         """Moves the actor to its next position according to its velocity. Will wrap the position 
         from one side of the screen to the other when it reaches the given maximum x and y values.
@@ -115,3 +125,11 @@ class Actor:
             velocity (Point): The given velocity.
         """
         self._velocity = velocity
+    
+    def set_points(self, value):
+        """Updates the points to the given one.
+
+        Args:
+            value (Int): The given points.
+        """
+        self._points = value
