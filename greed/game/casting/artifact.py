@@ -12,7 +12,7 @@ class Artifact(Actor):
 
     Attributes
     """
-    def __init__(self, message=""):
+    def __init__(self):
         """Constructor. Initializes an instnance of Artifact.
         """
         super().__init__()
@@ -23,5 +23,15 @@ class Artifact(Actor):
         x = random.randint(1, 60 - 1)
         y = random.randint(1, round(40 / 2) - 1)
         self._position = Point(x, y).scale(self._font_size)
-        self.color = Color(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-        self.velocity = Point(0, 5)
+        self._color = Color(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        self._velocity = Point(0, random.randint(5, 15))
+
+        coinflip = random.randint(0, 1)
+
+        if coinflip == 0:
+            self._text = 'O'
+            self._points = -1
+
+        else:
+            self._text = '*'
+            self._points = 1

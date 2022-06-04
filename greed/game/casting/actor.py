@@ -15,6 +15,7 @@ class Actor:
         _position (Point): The screen coordinates.
         _velocity (Point): The speed and direction.
         _points (int): The current value.
+        _message (string): Used to display the score
     """
 
     def __init__(self):
@@ -25,6 +26,7 @@ class Actor:
         self._position = Point(0, 0)
         self._velocity = Point(0, 0)
         self._points = 0
+        self._message = ""
 
     def get_color(self):
         """Gets the actor's color as a tuple of three ints (r, g, b).
@@ -73,6 +75,13 @@ class Actor:
             Int: The actor's points.
         """
         return self._points
+
+    def get_message(self):
+        """Gets the artifact's message
+        Returns:
+            Message: A string of the message
+        """
+        return self._message
 
     def move_next(self, max_x, max_y):
         """Moves the actor to its next position according to its velocity. Will wrap the position 
@@ -133,3 +142,10 @@ class Actor:
             value (Int): The given points.
         """
         self._points = value
+
+    def set_message(self, message):
+        """Sets the artifact's message
+        Returns:
+            Nothing
+        """
+        self._message = message
