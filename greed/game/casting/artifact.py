@@ -1,4 +1,5 @@
 from game.casting.actor import Actor
+import random
 
 # TODO: Implement the Artifact class here. Don't forget to inherit from Actor!
 class Artifact(Actor):
@@ -7,21 +8,22 @@ class Artifact(Actor):
     So we will establish a message attribute, as well as the associated getter and setter."""
 
 
-    def __init__(self, message=""):
-        """Constructor. Initializes an instnance of Artifact, optionally with a message.
+    def __init__(self):
+        """Constructor. Initializes an instnance of Artifact, random either rock or gem.
         """
         super().__init__()
-        self._message = message
+        self._value = 0
+       
 
     
-    def get_message(self):
+    def get_value(self):
         """Gets this artifact's message and returns it."""
-        return self._message
+        return self._value
 
     
-    def set_message(self, message):
+    def set_value(self, value):
         """Sets this artifact's message to that specified by the message parameter."""
-        self._message = message
+        self._value = value
 
 
 

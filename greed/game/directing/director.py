@@ -1,3 +1,5 @@
+from game.shared.point import Point
+
 class Director:
     """A person who directs the game. 
     
@@ -37,29 +39,36 @@ class Director:
         Args:
             cast (Cast): The cast of actors.
         """
-        robot = cast.get_first_actor("robots")
+        player = cast.get_first_actor("players")
         velocity = self._keyboard_service.get_direction()
-        robot.set_velocity(velocity)        
+        player.set_velocity(velocity)        
 
     def _do_updates(self, cast):
-        """Updates the robot's position and resolves any collisions with artifacts.
+        """Updates the player's position and resolves any collisions with artifacts.
         
         Args:
             cast (Cast): The cast of actors.
         """
         banner = cast.get_first_actor("banners")
-        robot = cast.get_first_actor("robots")
+        player = cast.get_first_actor("players")
         artifacts = cast.get_actors("artifacts")
 
-        banner.set_text("")
+        for artifact in artifacts:
+            artifact.set_velocity(Point(0,20))
+
+        # banner.set_text("")
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
-        robot.move_next(max_x, max_y)
+        player.move_next(max_x, max_y)
+
+        for artifact in artifacts:
+            artifact.move_next(max_x, max_y)
         
         for artifact in artifacts:
-            if robot.get_position().equals(artifact.get_position()):
-                message = artifact.get_message()
-                banner.set_text(message)    
+            if player.get_position().equals(artifact.get_position()):
+                points = artifact.get_value()
+                earned_lost_text = "earned" if points > 0 else "lost"
+                banner.set_text(f"You {earned_lost_text} a point.")    
         
     def _do_outputs(self, cast):
         """Draws the actors on the screen.

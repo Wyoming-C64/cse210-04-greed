@@ -21,7 +21,7 @@ COLS = 60
 ROWS = 40
 MAX_X = CELL_SIZE * COLS 
 MAX_Y = CELL_SIZE * ROWS
-CAPTION = "Robot Finds Kitten"
+CAPTION = "Greed"
 DATA_PATH = os.path.dirname(os.path.abspath(__file__)) + "/data/messages.txt"
 WHITE = Color(255, 255, 255)
 DEFAULT_ARTIFACTS = 40
@@ -42,15 +42,15 @@ def main():
     
     # create the robot
     x = int(MAX_X / 2)
-    y = int(MAX_Y / 2)
+    y = int(MAX_Y - CELL_SIZE)
     position = Point(x, y)
 
-    robot = Actor()
-    robot.set_text("@")
-    robot.set_font_size(FONT_SIZE)
-    robot.set_color(WHITE)
-    robot.set_position(position)
-    cast.add_actor("robots", robot)
+    player = Actor()
+    player.set_text("☺")
+    player.set_font_size(FONT_SIZE)
+    player.set_color(WHITE)
+    player.set_position(position)
+    cast.add_actor("players", player)
     
     # create the artifacts
     with open(DATA_PATH) as file:
@@ -60,8 +60,8 @@ def main():
     plot_list = []
 
     for n in range(DEFAULT_ARTIFACTS):
-        text = chr(random.randint(33, 255))
-        message = messages[n]
+        
+        # message = messages[n]
 
         unique_point = False
         while not unique_point:
@@ -74,17 +74,30 @@ def main():
 
         position = position.scale(CELL_SIZE)
 
-        r = random.randint(64, 255)
-        g = random.randint(64, 255)
-        b = random.randint(64, 255)
-        color = Color(r, g, b)
+        # # Rocks are some shade of grey.
+        # # Gems are some shade of cyan.
         
         artifact = Artifact()
-        artifact.set_text(text)
+
+        decision = random.randint(64,255)
+        if decision < 128:  # It's a rock.
+            color = Color(decision, decision, decision)
+            artifact.set_color(color)
+            artifact.set_text('@')
+            artifact.set_value(-1)
+        else:               # It's a gem
+            color = Color(0, decision, decision)
+            artifact.set_color(color)
+            artifact.set_text('*')
+            artifact.set_value(1)
+
+        # color = Color(k, k, k)
+
+        # artifact.set_text(text)
         artifact.set_font_size(FONT_SIZE)
-        artifact.set_color(color)
+        # artifact.set_color(color)
         artifact.set_position(position)
-        artifact.set_message(message)
+        # artifact.set_message(message)
         cast.add_actor("artifacts", artifact)
     
     # start the game
