@@ -14,13 +14,13 @@ from game.shared.color import Color
 from game.shared.point import Point
 
 
-FRAME_RATE = 18
-MAX_X = 900
-MAX_Y = 600
+FRAME_RATE = 30
 CELL_SIZE = 15
-FONT_SIZE = 15
+FONT_SIZE = CELL_SIZE
 COLS = 60
 ROWS = 40
+MAX_X = CELL_SIZE * COLS
+MAX_Y = CELL_SIZE * ROWS
 CAPTION = "Greed"
 DATA_PATH = os.path.dirname(os.path.abspath(__file__)) + "/data/messages.txt"
 WHITE = Color(255, 255, 255)
@@ -45,51 +45,35 @@ def main():
     y = int(MAX_Y + 585)
     position = Point(x, y)
 
-    robot = Actor()
-    robot.set_text("#")
-    robot.set_font_size(FONT_SIZE)
-    robot.set_color(WHITE)
-    robot.set_position(position)
-    cast.add_actor("robots", robot)
+    player = Actor()
+    player.set_text("#")
+    player.set_font_size(FONT_SIZE)
+    player.set_color(WHITE)
+    player.set_position(position)
+    cast.add_actor("players", player)
     
 
     for n in range(DEFAULT_ARTIFACTS):
 
-        x = random.randint(1, COLS - 1)
-        y = random.randint(1, ROWS - 1)
-        position = Point(x, y)
-        position = position.scale(CELL_SIZE)
+    # Handled in Artifact constructor via restart()
+    #     x = random.randint(1, COLS - 1)
+    #     y = random.randint(1, ROWS - 1)
+    #     position = Point(x, y)
+    #     position = position.scale(CELL_SIZE)
 
-        r = random.randint(0, 255)
-        g = random.randint(0, 255)
-        b = random.randint(0, 255)
-        color = Color(r, g, b)
-        brown = Color(87,65,47)
+    #     r = random.randint(0, 255)
+    #     g = random.randint(0, 255)
+    #     b = random.randint(0, 255)
+    #     color = Color(r, g, b)
+    #     brown = Color(87,65,47)
         
-        # Make rock or gem | rock = brown, gem = random color
-        value = random.randint(0,1)
-        text = ''
+    #     # Make rock or gem | rock = brown, gem = random color
+    #     value = random.randint(0,1)
+    #     text = ''
 
         artifact = Artifact()
         
         artifact.set_font_size(FONT_SIZE)
-
-        if (value == 0): 
-            # Rock
-            artifact.set_color(brown)
-            text = 'o'
-            artifact.set_text(text)
-            artifact.set_message(value -1)
-        else: 
-            # Gem
-            text = '*'
-            artifact.set_color(color)
-            artifact.set_text(text)
-            artifact.set_message(value)
-
-        
-        artifact.set_position(position)
-        
         
         cast.add_actor("artifacts", artifact)
     

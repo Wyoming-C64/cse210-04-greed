@@ -84,6 +84,14 @@ class VideoService:
         """
         return self._height
 
+    def get_rows(self):
+        """Gets the video screen's equivalent number of rows available.
+        
+        Returns:
+            int: The video screen's height in cell rows. (height/cell size)
+        """
+        return int(self._height / self._cell_size)
+
     def get_width(self):
         """Gets the video screen's width.
         
@@ -91,6 +99,14 @@ class VideoService:
             Grid: The video screen's width.
         """
         return self._width
+
+    def get_cols(self):
+        """Gets the video screen's equivalent number of columns available.
+        
+        Returns:
+            int: The video screen's width in cell columns. (width/cell size)
+        """
+        return int(self._width / self._cell_size)
 
     def is_window_open(self):
         """Whether or not the window was closed by the user.
