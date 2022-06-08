@@ -57,7 +57,7 @@ class Artifact(Actor):
         if not at_top:
             y = random.randint(1, 40 - 1)
         else:
-            y = self._position.get_y()
+            y = 1
         
         self._position = Point(x, y).scale(self._font_size)
         self._velocity = Point(0, random.randint(2, 10))

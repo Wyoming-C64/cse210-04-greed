@@ -92,6 +92,7 @@ class Director:
             if player.get_position().collides_with(artifact.get_position(), player_bubble_size):
                 points = artifact.get_points()
                 self.score += points
+                # Restart artifact at top.
                 artifact.restart(True)
             if artifact.get_points() > 0:
                 gems += 1
