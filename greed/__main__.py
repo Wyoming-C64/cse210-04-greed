@@ -14,8 +14,8 @@ from game.shared.color import Color
 from game.shared.point import Point
 
 
-FRAME_RATE = 30
-CELL_SIZE = 15
+FRAME_RATE = 25
+CELL_SIZE = 20
 FONT_SIZE = CELL_SIZE
 COLS = 60
 ROWS = 40
@@ -42,7 +42,7 @@ def main():
     
     # create the robot
     x = int(MAX_X / 2)
-    y = int(MAX_Y + 585)
+    y = int(MAX_Y - CELL_SIZE)
     position = Point(x, y)
 
     player = Actor()
@@ -54,27 +54,8 @@ def main():
     
 
     for n in range(DEFAULT_ARTIFACTS):
-
-    # Handled in Artifact constructor via restart()
-    #     x = random.randint(1, COLS - 1)
-    #     y = random.randint(1, ROWS - 1)
-    #     position = Point(x, y)
-    #     position = position.scale(CELL_SIZE)
-
-    #     r = random.randint(0, 255)
-    #     g = random.randint(0, 255)
-    #     b = random.randint(0, 255)
-    #     color = Color(r, g, b)
-    #     brown = Color(87,65,47)
-        
-    #     # Make rock or gem | rock = brown, gem = random color
-    #     value = random.randint(0,1)
-    #     text = ''
-
         artifact = Artifact()
-        
         artifact.set_font_size(FONT_SIZE)
-        
         cast.add_actor("artifacts", artifact)
     
     # start the game

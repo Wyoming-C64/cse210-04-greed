@@ -39,12 +39,6 @@ class VideoService:
             actor (Actor): The actor to draw.
         """ 
         text = actor.get_text()
-        
-        # If artifact was not removed, it starts back at the top of the screen
-        if (actor.get_position().get_y() > 600):
-            pos = actor.get_position()
-            pos._y = 0
-            actor.set_position(pos)
 
         y = actor.get_position().get_y()
         x = actor.get_position().get_x()

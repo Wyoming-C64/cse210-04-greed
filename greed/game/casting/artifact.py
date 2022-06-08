@@ -38,26 +38,20 @@ class Artifact(Actor):
         """
         point_values = [-1,1]
         self._points = point_values[random.randint(0,1)]
-        random_value = random.randint(32,127)
+        random_value = random.randint(48,143)
         random_gem_color = random.randint(1,4)
         artifact_colors = [
             # Grey
             Color(random_value, random_value, random_value),
             # Red
-            Color(random_value+128, 0, 0),
+            Color(random_value+112, 0, 0),
             # Yellow
-            Color(random_value+128, random_value+128, 0),
+            Color(random_value+112, random_value+112, 0),
             # Green
-            Color(0, random_value+128, 0),
+            Color(0, random_value+112, 0),
             # Cyan
-            Color(0, random_value+128, random_value+128)
+            Color(0, random_value+112, random_value+112)
         ]
-
-    #     x = random.randint(1, COLS - 1)
-    #     y = random.randint(1, ROWS - 1)
-    #     position = Point(x, y)
-    #     position = position.scale(CELL_SIZE)
-
 
         x = random.randint(1, 60 - 1)
         if not at_top:
@@ -71,6 +65,8 @@ class Artifact(Actor):
         if self._points == -1:
             self.set_text('@')
             self.set_color(artifact_colors[0])
+            # print("I am now a ROCK.")
         else: 
             self.set_text('*')
             self.set_color(artifact_colors[random_gem_color])
+            # print("I am now a GEM.")

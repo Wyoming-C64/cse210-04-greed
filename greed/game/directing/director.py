@@ -1,6 +1,4 @@
 import random
-from xml.etree.ElementTree import tostring
-
 from game.shared.point import Point 
 from game.shared.color import Color
 from game.casting.artifact import Artifact
@@ -26,7 +24,7 @@ class Director:
         self._keyboard_service = keyboard_service
         self._video_service = video_service
         self.score = 0
-        self.artifact_floor = 40
+        self._gems_available = True
         
     def start_game(self, cast):
         """Starts the game using the given cast. Runs the main game loop.
@@ -35,13 +33,28 @@ class Director:
             cast (Cast): The cast of actors.
         """
         self._video_service.open_window()
-        artifacts = cast.get_actors("artifacts")
         
-        while self._video_service.is_window_open():
+        while self._video_service.is_window_open() and self._gems_available:
             self._get_inputs(cast)
             self._do_updates(cast)
             self._do_outputs(cast)
         self._video_service.close_window()
+        self._do_end_game()
+
+    def _do_end_game(self):
+        """Display some information when the game has ended.
+        
+        Args:
+            None.
+        """
+        print(chr(27)+"[2J")
+        you_won = "You collected all the gems!" if not self._gems_available else ""
+        print(f"The game is over. {you_won}")
+        print(f"You were able to achieve a final score of: {self.score} points.")
+        print()
+        print("Thank you for playing.")
+        print()
+
 
     def _get_inputs(self, cast):
         """Gets directional input from the keyboard and applies it to the robot.
@@ -54,7 +67,8 @@ class Director:
         player.set_velocity(velocity)        
 
     def _do_updates(self, cast):
-        """Updates the robot's position and resolves any collisions with artifacts.
+        """Updates the player's position, the artifacts' positions and resolves 
+        any collisions with artifacts.
         
         Args:
             cast (Cast): The cast of actors.
@@ -64,65 +78,28 @@ class Director:
         player = cast.get_first_actor("players")
         artifacts = cast.get_actors("artifacts")
 
-        # Makes sure there are always 40 artifacts
-        # Not needed here, we already have code to do this in the Artifact class
-        # if (len(artifacts) < self.artifact_floor):
-        #     for n in range((self.artifact_floor - len(artifacts))):
-        #         x = random.randint(1, 59)
-        #         y = 0
-        #         position = Point(x, y)
-        #         postion = position.scale(15)
-
-        #         r = random.randint(0, 255)
-        #         g = random.randint(0, 255)
-        #         b = random.randint(0, 255)
-        #         color = Color(r, g, b)
-        #         brown = Color(87,65,47)
-
-        #         value = random.randint(0,1)
-        #         text = ''
-
-        #         artifact = Artifact()
-                
-        #         artifact.set_font_size(15)
-
-        #         if (value == 0): 
-        #             # Rock
-        #             artifact.set_color(brown)
-        #             text = 'o'
-        #             artifact.set_text(text)
-        #             artifact.set_message(value -1)
-        #         else: 
-        #             # Gem
-        #             text = '*'
-        #             artifact.set_color(color)
-        #             artifact.set_text(text)
-        #             artifact.set_message(value)
-
-                
-        #         artifact.set_position(position)
-                
-                
-        #         cast.add_actor("artifacts", artifact)
-
-
         # Scroll the artifacts from top of screen down to bottom, and move the player.
         
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
 
         player.move_next(max_x, max_y)
+        player_bubble_size = int( (player.get_font_size()-1) / 2 ) 
+        gems = 0
 
-        banner.set_text(f"Score: {self.score}")
-        
         for artifact in artifacts:
             artifact.move_next(max_x, max_y)
-            if player.get_position().collides_with(artifact.get_position(), 7):
+            if player.get_position().collides_with(artifact.get_position(), player_bubble_size):
                 points = artifact.get_points()
                 self.score += points
-                banner.set_text(f"Score: {self.score}      ")
-                # cast.remove_actor("artifacts", artifact)   
                 artifact.restart(True)
+            if artifact.get_points() > 0:
+                gems += 1
+
+        banner.set_text(f"Score: {self.score}    Gems left: {gems}")
+
+        if gems <= 0:
+            self._gems_available = False 
         
     def _do_outputs(self, cast):
         """Draws the actors on the screen.
