@@ -1,7 +1,7 @@
 # cse210-04-Greed
->           He who is not contented with what he has,
->   would not be contented with what he would like to have.
->                       - Socrates -
+_He who is not contented with what he has,_
+_would not be contented with what he would like to have._
+_- Socrates -_
 
 ## Overview
 Greed is a game in which the player seeks to gather as many falling gems as possible. The game continues as long as the player wants more!
@@ -24,14 +24,17 @@ You can also run the program from an IDE like Visual Studio Code. Start your IDE
 
 ## Project Structure
 The project files and folders are organized as follows:
-
+```
 root                    (project root folder)
 +-- greed               (source code for game)
   +-- game              (specific classes)
-    +-- deck.py         (deck class)
-    +-- director.py     (director class)
+    +-- casting         (classes who are used to make the interactable objects in the game)
+    +-- directing       (classes who direct the sequence of play)
+    +-- services        (classes that provide input and output from monitor and keyboard)
+    +-- shared          (classes who are used to manage attributes in other classes)
   +-- __main__.py       (program entry point)
 +-- README.md           (general info)
+```
 
 ## Required Technologies
 Python 3.8.0
