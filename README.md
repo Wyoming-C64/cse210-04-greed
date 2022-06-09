@@ -1,8 +1,8 @@
 # cse210-04-Greed
 
-__The Game of Greed__
-_He who is not contented with what he has,_
-_would not be contented with what he would like to have._
+__The Game of Greed__  
+_He who is not contented with what he has,_  
+_would not be contented with what he would like to have._  
 _- Socrates -_
 
 ## Overview
