@@ -43,6 +43,21 @@ class Point:
         """
         return self._x == other.get_x() and self._y == other.get_y()
 
+    def collides_with(self, other, boundary):
+        """Whether or not this Point is within a proximity to the given one. If boundary 
+        is 0, this is the same as equals(). Higher obscurity number means less precise. 
+
+        Args:
+            other (Point): The Point to compare.
+
+        Returns: 
+            boolean: True if both x and y are both within the proximity; false if otherwise.
+        """
+        boundary = abs(boundary)
+        flag_x = (self._x >= other.get_x() - boundary) and (self._x <= other.get_x() + boundary)
+        flag_y = (self._y >= other.get_y() - boundary) and (self._y <= other.get_y() + boundary)
+        return (flag_x and flag_y)
+
     def get_x(self):
         """Gets the horizontal distance.
         

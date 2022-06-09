@@ -39,8 +39,10 @@ class VideoService:
             actor (Actor): The actor to draw.
         """ 
         text = actor.get_text()
-        x = actor.get_position().get_x()
+
         y = actor.get_position().get_y()
+        x = actor.get_position().get_x()
+        
         font_size = actor.get_font_size()
         color = actor.get_color().to_tuple()
         pyray.draw_text(text, x, y, font_size, color)
@@ -76,6 +78,14 @@ class VideoService:
         """
         return self._height
 
+    def get_rows(self):
+        """Gets the video screen's equivalent number of rows available.
+        
+        Returns:
+            int: The video screen's height in cell rows. (height/cell size)
+        """
+        return int(self._height / self._cell_size)
+
     def get_width(self):
         """Gets the video screen's width.
         
@@ -83,6 +93,14 @@ class VideoService:
             Grid: The video screen's width.
         """
         return self._width
+
+    def get_cols(self):
+        """Gets the video screen's equivalent number of columns available.
+        
+        Returns:
+            int: The video screen's width in cell columns. (width/cell size)
+        """
+        return int(self._width / self._cell_size)
 
     def is_window_open(self):
         """Whether or not the window was closed by the user.

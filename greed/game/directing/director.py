@@ -1,5 +1,11 @@
+import random
+from game.shared.point import Point 
+from game.shared.color import Color
+from game.casting.artifact import Artifact
+
+
 class Director:
-    """A person who directs the game. 
+    """A thing that directs the game. 
     
     The responsibility of a Director is to control the sequence of play.
 
@@ -17,6 +23,8 @@ class Director:
         """
         self._keyboard_service = keyboard_service
         self._video_service = video_service
+        self.score = 0
+        self._gems_available = True
         
     def start_game(self, cast):
         """Starts the game using the given cast. Runs the main game loop.
@@ -25,11 +33,27 @@ class Director:
             cast (Cast): The cast of actors.
         """
         self._video_service.open_window()
-        while self._video_service.is_window_open():
+        
+        while self._video_service.is_window_open() and self._gems_available:
             self._get_inputs(cast)
             self._do_updates(cast)
             self._do_outputs(cast)
         self._video_service.close_window()
+
+    def do_end_game(self):
+        """Display some information when the game has ended.
+        
+        Args:
+            None.
+        """
+        print(chr(27)+"[2J")
+        you_won = "You collected all the gems!" if not self._gems_available else ""
+        print(f"The game is over. {you_won}")
+        print(f"You were able to achieve a final score of: {self.score} points.")
+        print()
+        print("Thank you for playing.")
+        print()
+
 
     def _get_inputs(self, cast):
         """Gets directional input from the keyboard and applies it to the robot.
@@ -37,29 +61,45 @@ class Director:
         Args:
             cast (Cast): The cast of actors.
         """
-        robot = cast.get_first_actor("robots")
+        player = cast.get_first_actor("players")
         velocity = self._keyboard_service.get_direction()
-        robot.set_velocity(velocity)        
+        player.set_velocity(velocity)        
 
     def _do_updates(self, cast):
-        """Updates the robot's position and resolves any collisions with artifacts.
+        """Updates the player's position, the artifacts' positions and resolves 
+        any collisions with player and artifacts.
         
         Args:
             cast (Cast): The cast of actors.
         """
+
         banner = cast.get_first_actor("banners")
-        robot = cast.get_first_actor("robots")
+        player = cast.get_first_actor("players")
         artifacts = cast.get_actors("artifacts")
 
-        banner.set_text("")
+        # Scroll the artifacts from top of screen down to bottom, and move the player.
+        
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
-        robot.move_next(max_x, max_y)
-        
+
+        player.move_next(max_x, max_y)
+        player_bubble_size = int( (player.get_font_size()-1) / 2 ) 
+        gems = 0
+
         for artifact in artifacts:
-            if robot.get_position().equals(artifact.get_position()):
-                message = artifact.get_message()
-                banner.set_text(message)    
+            artifact.move_next(max_x, max_y)
+            if player.get_position().collides_with(artifact.get_position(), player_bubble_size):
+                points = artifact.get_points()
+                self.score += points
+                # Restart artifact at top.
+                artifact.restart(True)
+            if artifact.get_points() > 0:
+                gems += 1
+
+        banner.set_text(f"Score: {self.score}    Gems left: {gems}")
+
+        if gems <= 0:
+            self._gems_available = False 
         
     def _do_outputs(self, cast):
         """Draws the actors on the screen.
