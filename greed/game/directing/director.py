@@ -5,7 +5,7 @@ from game.casting.artifact import Artifact
 
 
 class Director:
-    """A person who directs the game. 
+    """A thing that directs the game. 
     
     The responsibility of a Director is to control the sequence of play.
 
@@ -39,9 +39,8 @@ class Director:
             self._do_updates(cast)
             self._do_outputs(cast)
         self._video_service.close_window()
-        self._do_end_game()
 
-    def _do_end_game(self):
+    def do_end_game(self):
         """Display some information when the game has ended.
         
         Args:
@@ -68,7 +67,7 @@ class Director:
 
     def _do_updates(self, cast):
         """Updates the player's position, the artifacts' positions and resolves 
-        any collisions with artifacts.
+        any collisions with player and artifacts.
         
         Args:
             cast (Cast): The cast of actors.

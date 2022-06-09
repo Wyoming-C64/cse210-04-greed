@@ -8,7 +8,11 @@ class Artifact(Actor):
     """
     A rock or gem with value.
     The responsability of the Artifact is to restart himself.
-    Attributes
+    
+    Attributes:
+        _points (int): The point value of the artifact.
+        (All attributes of Actor)
+
     """
     def __init__(self):
         """Constructor. Initializes an instnance of Artifact.
@@ -19,7 +23,7 @@ class Artifact(Actor):
         
 
     def get_points(self):
-        """Returns the points valuee attached to any given instance.
+        """Returns the points value attached to any given instance.
         
         Args: 
             None
@@ -31,26 +35,28 @@ class Artifact(Actor):
 
 
     def restart(self, at_top = False):
-        """Resets all of the attributes in order to continue the sequence of play.
+        """Resets all of the attributes in order to continue the sequence of play. 
+        This particular instance may change types (rock -> gem or vice versa) or
+        maybe not. In any case, it will have a new location and velocity on screen.
 
         Args: 
             None
         """
         point_values = [-1,1]
         self._points = point_values[random.randint(0,1)]
-        random_value = random.randint(48,143)
+        random_value = random.randint(64,127)
         random_gem_color = random.randint(1,4)
         artifact_colors = [
             # Grey
             Color(random_value, random_value, random_value),
             # Red
-            Color(random_value+112, 0, 0),
+            Color(random_value+128, 0, 0),
             # Yellow
-            Color(random_value+112, random_value+112, 0),
+            Color(random_value+128, random_value+128, 0),
             # Green
-            Color(0, random_value+112, 0),
+            Color(0, random_value+128, 0),
             # Cyan
-            Color(0, random_value+112, random_value+112)
+            Color(0, random_value+128, random_value+128)
         ]
 
         x = random.randint(1, 60 - 1)

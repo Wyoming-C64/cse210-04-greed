@@ -13,7 +13,6 @@ from game.services.video_service import VideoService
 from game.shared.color import Color
 from game.shared.point import Point
 
-
 FRAME_RATE = 25
 CELL_SIZE = 20
 FONT_SIZE = CELL_SIZE
@@ -22,10 +21,8 @@ ROWS = 40
 MAX_X = CELL_SIZE * COLS
 MAX_Y = CELL_SIZE * ROWS
 CAPTION = "Greed"
-DATA_PATH = os.path.dirname(os.path.abspath(__file__)) + "/data/messages.txt"
 WHITE = Color(255, 255, 255)
 DEFAULT_ARTIFACTS = 40
-
 
 def main():
     
@@ -63,6 +60,7 @@ def main():
     video_service = VideoService(CAPTION, MAX_X, MAX_Y, CELL_SIZE, FRAME_RATE)
     director = Director(keyboard_service, video_service)
     director.start_game(cast)
+    director.do_end_game()
 
 
 if __name__ == "__main__":
